@@ -55,6 +55,27 @@ class TodoList {
         this.items = this.items.concat(todoList);
         this.saveToLocalStorage();
     }
+
+    downloadCSV() {
+        const csvContent = this.generateCSV();
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'todo-list.csv';
+        link.click();
+    }
+
+    importCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const csv = reader.result;
+            this.importFromCSV(csv);
+        };
+        reader.readAsText(file);
+    }
 }
 
 export default TodoList;

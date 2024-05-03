@@ -85,23 +85,10 @@ export default {
             this.todoList.deleteTodoItem(index);
         },
         downloadCSV() {
-            const csvContent = this.todoList.generateCSV();
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = 'todo-list.csv';
-            link.click();
+            this.todoList.downloadCSV()
         },
         importCSV(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                const csv = reader.result;
-                this.todoList.importFromCSV(csv);
-            };
-            reader.readAsText(file);
+            this.todoList.importCSV(event)
         }
     },
 };
